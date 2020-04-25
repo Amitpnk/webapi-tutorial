@@ -375,3 +375,32 @@ http://localhost:56556/api/camps/ATL2018?includeTalks=true
 
 ### Step 10 - Implementing search
 
+Searching API
+* As there is more the 2 get method, we have to use verbs (i.e. HttpGet)
+
+```c#
+
+[Route("searchByDate/{eventDate:datetime}")]
+[HttpGet]
+public async Task<IHttpActionResult> SearchByEventDate(DateTime eventDate, bool includeTalks = false)
+{
+    try
+    {
+        // Decoupling dal
+        var result = await _repository.GetAllCampsByEventDate(eventDate, includeTalks);
+        
+        return Ok(_mapper.Map<CampModel[]>(result));
+    }
+    catch (Exception ex)
+    {
+        // TODO Add logging
+        return InternalServerError(ex);
+    }
+}
+
+```
+
+passing querystring in postman
+```
+http://localhost:56556/api/camps/searchByDate/2018-10-18
+```

@@ -63,5 +63,25 @@ namespace Customer.API.Controllers
             }
 
         }
+
+
+        [Route("searchByDate/{eventDate:datetime}")]
+        [HttpGet]
+        public async Task<IHttpActionResult> SearchByEventDate(DateTime eventDate, bool includeTalks = false)
+        {
+            try
+            {
+                // Decoupling dal
+                var result = await _repository.GetAllCampsByEventDate(eventDate, includeTalks);
+             
+                return Ok(_mapper.Map<CampModel[]>(result));
+            }
+            catch (Exception ex)
+            {
+                // TODO Add logging
+                return InternalServerError(ex);
+            }
+
+        }
     }
 }
