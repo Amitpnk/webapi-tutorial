@@ -8,7 +8,7 @@
 - [Sample application with each labs](#sample-application-with-each-steps)
     - Creating WCF application
         - [Step 1 - Create Application](#step-1---create-application)
-    - Implementing Services
+    - Creating Get API
         - [Step 2 - Adding Data contract](#step-2---adding-data-contract)
         - [Step 3 - Adding Service contract and Operation contract in interface](#step-3---adding-service-contract-and-operation-contract-in-interface)
         - [Step 4 - Adding EntityFramework and DbContext](#step-4---adding-entityframework-and-dbcontext)
@@ -29,9 +29,17 @@ For feedback can drop mail to my email address amit.naik8103@gmail.com or you ca
     * It is XML based protocol information at a wire-level
     * WCF is messaging system 
 
-## Implementing Services
 
-### Step 1 - 
+
+### Step 1 - Create Application and setting up with Entity framework
+
+* Create Web API application (Framework 4.7.2)
+* Create Entity framework 
+    * Refer to [Entityframework repo](https://github.com/Amitpnk/customerapp-entityframework)
+    * Register Autofac configuration
+    * Create Repository pattern
+
+## Creating Get API
 
 ### Step 2 - Status code
 
@@ -53,18 +61,18 @@ For feedback can drop mail to my email address amit.naik8103@gmail.com or you ca
 using status code
 
 ```c#
-  public IHttpActionResult get()
-        {
-            var x = true;
-            if (x)
-            {
-                return Ok(new { Name = "Amit", Occupation = "CEO" });
-            }
-            else
-            {
-                return BadRequest("Bad request");
-            }
-        }
+public IHttpActionResult get()
+{
+    var x = true;
+    if (x)
+    {
+        return Ok(new { Name = "Amit", Occupation = "CEO" });
+    }
+    else
+    {
+        return BadRequest("Bad request");
+    }
+}
 ```
 
 ### Step 4 - Using GET collections
@@ -72,29 +80,29 @@ using status code
 Using GET collections
 
 ```c#
-  public class CampsController : ApiController
+public class CampsController : ApiController
+{
+    private readonly ICampRepository repository;
+
+    public CampsController(ICampRepository campRepository)
     {
-        private readonly ICampRepository repository;
-
-        public CampsController(ICampRepository campRepository)
-        {
-            repository = campRepository;
-        }
-        public async Task<IHttpActionResult> Get()
-        {
-            try
-            {
-                var result = await repository.GetAllCampsAsync();
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                // TODO Add logging
-                return InternalServerError(ex);
-            }
-
-        }
+        repository = campRepository;
     }
+    public async Task<IHttpActionResult> Get()
+    {
+        try
+        {
+            var result = await repository.GetAllCampsAsync();
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            // TODO Add logging
+            return InternalServerError(ex);
+        }
+
+    }
+}
 ```
 
 ### Step 5 - Using Models instead of entities
