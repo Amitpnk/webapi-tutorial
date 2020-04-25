@@ -52,6 +52,9 @@
     <Reference Include="Autofac.Integration.WebApi, Version=5.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.WebApi2.5.0.0\lib\net461\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -150,7 +153,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CampsController.cs" />
     <Compile Include="Data\CampContext.cs" />
+    <Compile Include="Data\CampMappingProfile.cs" />
     <Compile Include="Data\CampRepository.cs" />
     <Compile Include="Data\Entities\Speaker.cs" />
     <Compile Include="Data\Entities\Talk.cs" />
@@ -169,6 +174,9 @@
     <Compile Include="Migrations\202004241945484_initial-setup.designer.cs">
       <DependentUpon>202004241945484_initial-setup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\CampModel.cs" />
+    <Compile Include="Models\SpeakerModel.cs" />
+    <Compile Include="Models\TalkModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -184,8 +192,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
