@@ -359,3 +359,6 @@ passing querystring in postman
 http://localhost:56556/api/camps?includeTalks=true
 http://localhost:56556/api/camps/ATL2018?includeTalks=true
 ```
+
+### Step 10 - Implementing search
+
