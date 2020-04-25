@@ -162,10 +162,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004250751372_modification_v1.cs" />
-    <Compile Include="Migrations\202004250751372_modification_v1.designer.cs">
-      <DependentUpon>202004250751372_modification_v1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\202004241945484_initial-setup.cs" />
     <Compile Include="Migrations\202004241945484_initial-setup.designer.cs">
@@ -194,9 +190,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202004241945484_initial-setup.resx">
       <DependentUpon>202004241945484_initial-setup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004250751372_modification_v1.resx">
-      <DependentUpon>202004250751372_modification_v1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
