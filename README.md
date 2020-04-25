@@ -6,13 +6,18 @@
 - [Sending Feedback](#sending-feedback)
 - [About Web API](#about-entity-framework-core)
 - [Sample application with each labs](#sample-application-with-each-steps)
-    - Creating WCF application
-        - [Step 1 - Create Application](#step-1---create-application)
+    - Creating Web API application and configuration
+        - [Step 1 - Create Application and setting up with Entity framework](#step-1---create-application)
     - Creating Get API
-        - [Step 2 - Adding Data contract](#step-2---adding-data-contract)
-        - [Step 3 - Adding Service contract and Operation contract in interface](#step-3---adding-service-contract-and-operation-contract-in-interface)
-        - [Step 4 - Adding EntityFramework and DbContext](#step-4---adding-entityframework-and-dbcontext)
-        - [Step 5 - Service Implementation](#step-5---service-implementation)
+        - [Step 2 - Status code](#step-2---adding-data-contract)
+        - [Step 3 - Using code](#step-3---adding-service-contract-and-operation-contract-in-interface)
+        - [Step 4 - Using GET collections](#step-4---adding-entityframework-and-dbcontext)
+        - [Step 5 - Using Models instead of entities](#step-5---service-implementation)
+        - [Step 6 - Serialization in Web API]()
+        - [Step 7 - Getting Individual items]()
+        - [Step 8 - Returning related data]()
+        - [Step 9 - Using query string]()
+        - [Step 10 - Implementing search]()
     - Hosting Services
 
 ## Sending Feedback
@@ -185,7 +190,7 @@ public class CampsController : ApiController
 }
 ```
 
-### Step 6 - SerialiZation in Web API
+### Step 6 - Serialization in Web API
 
 In case, if we need camel case json then add below code to webapiconfig file
 
