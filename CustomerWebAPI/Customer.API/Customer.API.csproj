@@ -150,8 +150,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Data\CampContext.cs" />
     <Compile Include="Data\CampRepository.cs" />
     <Compile Include="Data\Entities\Speaker.cs" />
@@ -161,6 +159,10 @@
     <Compile Include="Data\ICampRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004250829215_adddata.cs" />
+    <Compile Include="Migrations\202004250829215_adddata.designer.cs">
+      <DependentUpon>202004250829215_adddata.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\202004241945484_initial-setup.cs" />
@@ -182,6 +184,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +193,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202004241945484_initial-setup.resx">
       <DependentUpon>202004241945484_initial-setup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004250829215_adddata.resx">
+      <DependentUpon>202004250829215_adddata.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
