@@ -7,17 +7,17 @@
 - [About Web API](#about-entity-framework-core)
 - [Sample application with each labs](#sample-application-with-each-steps)
     - Creating Web API application and configuration
-        - [Step 1 - Create Application and setting up with Entity framework](#step-1---create-application)
+        - [Step 1 - Create Application and setting up with Entity framework](#step-1---create-application-and-setting-up-with-entity-framework)
     - Creating Get API
-        - [Step 2 - Status code](#step-2---adding-data-contract)
-        - [Step 3 - Using code](#step-3---adding-service-contract-and-operation-contract-in-interface)
-        - [Step 4 - Using GET collections](#step-4---adding-entityframework-and-dbcontext)
-        - [Step 5 - Using Models instead of entities](#step-5---service-implementation)
-        - [Step 6 - Serialization in Web API]()
-        - [Step 7 - Getting Individual items]()
-        - [Step 8 - Returning related data]()
-        - [Step 9 - Using query string]()
-        - [Step 10 - Implementing search]()
+        - [Step 2 - Status code](#step-2---status-code)
+        - [Step 3 - Using code](#step-3---using-code)
+        - [Step 4 - Using GET collections](#step-4---using-get-collections)
+        - [Step 5 - Using Models instead of entities](#step-5---using-models-instead-of-entities)
+        - [Step 6 - Serialization in Web API](#step-6---serialization-in-web-api)
+        - [Step 7 - Getting Individual items](#step-7---getting-individual-items)
+        - [Step 8 - Returning related data](#step-8---returning-related-data)
+        - [Step 9 - Using query string](#step-9---using-query-string)
+        - [Step 10 - Implementing search](#step-10---implementing-search)
     - Hosting Services
 
 ## Sending Feedback
