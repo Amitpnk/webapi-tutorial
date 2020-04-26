@@ -18,8 +18,12 @@
         - [Step 8 - Returning related data](#step-8---returning-related-data)
         - [Step 9 - Using query string](#step-9---using-query-string)
         - [Step 10 - Implementing search](#step-10---implementing-search)
-    - Modifying Data
-        - [Step 11 - URI Design]()
+    - [Modifying Data](#modifying-data)
+        - [Step 11 - URI Design](#step-11---uri-design)
+        - [Step 12 - Model binding](#step-12---model-binding)
+        - [Step 13 - Implementng POST](#step-13---implementng-post)
+        - [Step 14 - Adding Model validation](#step-14---adding-model-validation)
+
 
 ## Sending Feedback
 
@@ -485,6 +489,22 @@ public CampMappingProfile()
 ```
 
 ### Step 14 - Adding Model validation
+
+```c#
+public class CampModel
+{
+    [Required]
+    public string Name { get; set; }
+    [Required]
+    public string Moniker { get; set; }
+    [Required]
+    public DateTime EventDate { get; set; } = DateTime.MinValue;
+    [Range(1,30)]
+    public int Length { get; set; } = 1;
+
+    // ...
+}
+```
 
 ```c#
 [Route()]
