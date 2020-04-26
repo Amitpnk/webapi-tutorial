@@ -18,7 +18,8 @@
         - [Step 8 - Returning related data](#step-8---returning-related-data)
         - [Step 9 - Using query string](#step-9---using-query-string)
         - [Step 10 - Implementing search](#step-10---implementing-search)
-    - Hosting Services
+    - Modifying Data
+        - [Step 11 - URI Design]()
 
 ## Sending Feedback
 
@@ -404,3 +405,103 @@ passing querystring in postman
 ```
 http://localhost:56556/api/camps/searchByDate/2018-10-18
 ```
+
+## Modifying Data
+
+### Step 11 - URI Design
+
+|Resource return type| GET | POST | PUT | DELETE |
+|---|---|---|---|---|
+|/customers|List|New item|Status code only|Status code only(Error)|
+|/customers/123|Item|Status code only(Error)|Updated item|Status code only|
+
+### Step 12 - Model binding
+
+```c#
+[Route()]
+public async Task<IHttpActionResult> Post(CampModel model)
+{
+    return   null;
+}
+```
+
+### Step 13 - Implementng POST
+
+```c#
+[Route()]
+public async Task<IHttpActionResult> Post(CampModel model)
+{
+    try
+    {
+        if (ModelState.IsValid)
+        {
+            // Mapping CampModel to Camp
+            var camp = _mapper.Map<Camp>(model);
+
+            // Insert to DB
+            _repository.AddCamp(camp);
+
+            // Commit to DB
+            if (await _repository.SaveChangesAsync())
+            {
+                // Get the inserted CampModel
+                var newModel = _mapper.Map<CampModel>(camp);
+                
+                // Pass to Route with new value
+                return CreatedAtRoute("GetCamp",
+                    new { moniker = newModel.Moniker }, newModel);
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        // TODO Add logging
+        return InternalServerError(ex);
+    }
+    return BadRequest();
+}
+```
+
+Add Name to route, incase if we need to redirect
+
+ ```c#
+ [Route("{moniker}", Name = "GetCamp")]
+public async Task<IHttpActionResult> Get(string moniker, bool includeTalks = false)
+{
+    // ...
+}
+ ```
+
+Add ReverseMap in case of binding CampModel to Camp
+
+```c#
+public CampMappingProfile()
+{
+    CreateMap<Camp, CampModel>()
+        .ForMember(c => c.Venue, opt => opt.MapFrom(m => m.Location.VenueName))
+        .ReverseMap();
+    // ...
+}
+```
+
+### Step 14 - Adding Model validation
+
+```c#
+[Route()]
+public async Task<IHttpActionResult> Post(CampModel model)
+{
+    try
+    {
+        if (await _repository.GetCampAsync(model.Moniker) != null)
+        {
+            ModelState.AddModelError("Moniker", "Moniker in use");
+        }
+
+        if (ModelState.IsValid)
+        {
+            // ...
+        }
+    }
+
+    return BadRequest(ModelState);
+}```

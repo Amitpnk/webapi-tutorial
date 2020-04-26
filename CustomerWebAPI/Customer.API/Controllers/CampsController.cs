@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Customer.API.Data;
+using Customer.API.Data.Entities;
 using Customer.API.Models;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace Customer.API.Controllers
 
         }
 
-        [Route("{moniker}")]
+        [Route("{moniker}", Name = "GetCamp")]
         public async Task<IHttpActionResult> Get(string moniker, bool includeTalks = false)
         {
             try
@@ -83,5 +84,44 @@ namespace Customer.API.Controllers
             }
 
         }
+
+        [Route()]
+        public async Task<IHttpActionResult> Post(CampModel model)
+        {
+            try
+            {
+                if (await _repository.GetCampAsync(model.Moniker) != null)
+                {
+                    ModelState.AddModelError("Moniker", "Moniker in use");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    // Mapping CampModel to Camp
+                    var camp = _mapper.Map<Camp>(model);
+
+                    // Insert to DB
+                    _repository.AddCamp(camp);
+
+                    // Commit to DB
+                    if (await _repository.SaveChangesAsync())
+                    {
+                        // Get the inserted CampModel
+                        var newModel = _mapper.Map<CampModel>(camp);
+                        
+                        // Pass to Route with new value
+                        return CreatedAtRoute("GetCamp",
+                            new { moniker = newModel.Moniker }, newModel);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO Add logging
+                return InternalServerError(ex);
+            }
+            return BadRequest(ModelState);
+        }
+
     }
 }
