@@ -74,7 +74,7 @@ namespace Customer.API.Controllers
             {
                 // Decoupling dal
                 var result = await _repository.GetAllCampsByEventDate(eventDate, includeTalks);
-             
+
                 return Ok(_mapper.Map<CampModel[]>(result));
             }
             catch (Exception ex)
@@ -108,7 +108,7 @@ namespace Customer.API.Controllers
                     {
                         // Get the inserted CampModel
                         var newModel = _mapper.Map<CampModel>(camp);
-                        
+
                         // Pass to Route with new value
                         return CreatedAtRoute("GetCamp",
                             new { moniker = newModel.Moniker }, newModel);
@@ -123,5 +123,36 @@ namespace Customer.API.Controllers
             return BadRequest(ModelState);
         }
 
+        [Route("{moniker}")]
+        public async Task<IHttpActionResult> Put(string moniker, CampModel model)
+        {
+            try
+            {
+                // check moniker in DB
+                Camp camp = await _repository.GetCampAsync(moniker);
+                // if it is not found, send 404
+                if (camp == null)
+                {
+                    return NotFound();
+                }
+                // automapper map campModel to camp EF model
+                _mapper.Map(model, camp);
+
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Ok(_mapper.Map<CampModel>(camp));
+                }
+                else
+                {
+                    return InternalServerError();
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO Add logging
+                return InternalServerError(ex);
+            }
+           
+        }
     }
 }

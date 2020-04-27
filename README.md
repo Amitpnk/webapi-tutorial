@@ -525,3 +525,61 @@ public async Task<IHttpActionResult> Post(CampModel model)
 
     return BadRequest(ModelState);
 }```
+
+### Step 15 - Implementing PUT
+
+```c#
+[Route("{moniker}")]
+public async Task<IHttpActionResult> Put(string moniker, CampModel model)
+{
+    try
+    {
+        // check moniker in DB
+        Camp camp = await _repository.GetCampAsync(moniker);
+        // if it is not found, send 404
+        if (camp == null)
+        {
+            return NotFound();
+        }
+        // automapper map campModel to camp EF model
+        _mapper.Map(model, camp);
+
+        if (await _repository.SaveChangesAsync())
+        {
+            return Ok(_mapper.Map<CampModel>(camp));
+        }
+        else
+        {
+            return InternalServerError();
+        }
+    }
+    catch (Exception ex)
+    {
+        // TODO Add logging
+        return InternalServerError(ex);
+    }
+    
+}
+}```
+
+passing querystring in postman
+```
+http://localhost:56556/api/camps/ATL2019
+
+// with JSON object as
+{
+    "name": "New Code Camp",
+    "moniker": "ATL2019",
+    "eventDate": "2019-10-18T00:00:00",
+    "length": 1,
+    "talks": [],
+    "venue": "New address2",
+    "locationAddress1": null,
+    "locationAddress2": null,
+    "locationAddress3": null,
+    "locationCityTown": null,
+    "locationStateProvince": null,
+    "locationPostalCode": null,
+    "locationCountry": "IN"
+}
+```
