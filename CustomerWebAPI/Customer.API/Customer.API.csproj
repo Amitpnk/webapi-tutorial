@@ -154,6 +154,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CampsController.cs" />
+    <Compile Include="Controllers\OpertaionsController.cs" />
+    <Compile Include="Controllers\TalksController.cs" />
     <Compile Include="Data\CampContext.cs" />
     <Compile Include="Data\CampMappingProfile.cs" />
     <Compile Include="Data\CampRepository.cs" />

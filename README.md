@@ -8,7 +8,7 @@
 - [Sample application with each labs](#sample-application-with-each-steps)
     - Creating Web API application and configuration
         - [Step 1 - Create Application and setting up with Entity framework](#step-1---create-application-and-setting-up-with-entity-framework)
-    - Creating Get API
+    - [Creating Get API](#creating-get-api)
         - [Step 2 - Status code](#step-2---status-code)
         - [Step 3 - Using code](#step-3---using-code)
         - [Step 4 - Using GET collections](#step-4---using-get-collections)
@@ -23,6 +23,9 @@
         - [Step 12 - Model binding](#step-12---model-binding)
         - [Step 13 - Implementng POST](#step-13---implementng-post)
         - [Step 14 - Adding Model validation](#step-14---adding-model-validation)
+        - [Step 15 - Implementng PUT](#step-15---implementing-put)
+        - [Step 16 - Implementng DELETE](#step-16---implementing-delete)
+    - [Association with API](#modifying-data)
 
 
 ## Sending Feedback
@@ -624,3 +627,86 @@ calling from postman
 ```
 http://localhost:56556/api/camps/ATL2020
 ```
+
+## Association with API
+
+For calling association data, we will use below URL design
+
+```
+/api/camps/alt2020/talks
+/api/camps/alt2020/talks/1
+```
+
+### Step 16 - Creating association controller
+
+```c#
+[RoutePrefix("api/camps/{moniker}/talks")]
+public class TalksController : ApiController
+{
+    private readonly ICampRepository _repository;
+    private readonly IMapper _mapper;
+
+    public TalksController(ICampRepository repository, IMapper mapper)
+    {
+        _repository = repository;
+        _mapper = mapper;
+    }
+
+    [Route("{id:int}")]
+    public async Task<IHttpActionResult> Get(string moniker, int id)
+    {
+        try
+        {
+            var result = await _repository.GetTalkByMonikerAsync(moniker, id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(_mapper.Map<TalkModel>(result));
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+}
+```
+
+calling from postman
+```
+http://localhost:56556/api/camps/ATL2018/talks/1
+```
+
+## Functional API
+
+In case we need to some below operation, then we can use Functional API's
+* print job, or 
+* sending email 
+* starting some operation or service
+* clearing cache then we can use functional api
+
+We have to avoid functional api for Reporting because functional api should not have returning data
+
+### Step 17 - Creating functional api
+
+```c#
+public class OpertaionsController : ApiController
+{
+    [HttpOptions]
+    [Route("api/sendemail")]
+    public IHttpActionResult SendEmail()
+    {
+        try
+        {
+            // TODO: Sending email logic
+
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return InternalServerError(ex);
+        }
+    }
+}
+```
+
