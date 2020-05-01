@@ -154,5 +154,37 @@ namespace Customer.API.Controllers
             }
            
         }
+
+        [Route("{moniker}")]
+        public async Task<IHttpActionResult> Delete(string moniker)
+        {
+            try
+            {
+                // check moniker in DB
+                Camp camp = await _repository.GetCampAsync(moniker);
+                // if it is not found, send 404
+                if (camp == null)
+                {
+                    return NotFound();
+                }
+
+                _repository.DeleteCamp(camp);
+
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return InternalServerError();
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO Add logging
+                return InternalServerError(ex);
+            }
+
+        }
     }
 }

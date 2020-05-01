@@ -450,7 +450,7 @@ public async Task<IHttpActionResult> Post(CampModel model)
             {
                 // Get the inserted CampModel
                 var newModel = _mapper.Map<CampModel>(camp);
-                
+
                 // Pass to Route with new value
                 return CreatedAtRoute("GetCamp",
                     new { moniker = newModel.Moniker }, newModel);
@@ -468,8 +468,8 @@ public async Task<IHttpActionResult> Post(CampModel model)
 
 Add Name to route, incase if we need to redirect
 
- ```c#
- [Route("{moniker}", Name = "GetCamp")]
+```c#
+[Route("{moniker}", Name = "GetCamp")]
 public async Task<IHttpActionResult> Get(string moniker, bool includeTalks = false)
 {
     // ...
@@ -524,7 +524,8 @@ public async Task<IHttpActionResult> Post(CampModel model)
     }
 
     return BadRequest(ModelState);
-}```
+}
+```
 
 ### Step 15 - Implementing PUT
 
@@ -560,9 +561,9 @@ public async Task<IHttpActionResult> Put(string moniker, CampModel model)
     }
     
 }
-}```
+```
 
-passing querystring in postman
+calling from postman
 ```
 http://localhost:56556/api/camps/ATL2019
 
@@ -582,4 +583,44 @@ http://localhost:56556/api/camps/ATL2019
     "locationPostalCode": null,
     "locationCountry": "IN"
 }
+```
+
+### Step 15 - Implementing DELETE
+
+```c#
+[Route("{moniker}")]
+public async Task<IHttpActionResult> Delete(string moniker, CampModel model)
+{
+    try
+    {
+        // check moniker in DB
+        Camp camp = await _repository.GetCampAsync(moniker);
+        // if it is not found, send 404
+        if (camp == null)
+        {
+            return NotFound();
+        }
+        // Delete camp 
+        _repository.DeleteCamp(camp);
+
+        if (await _repository.SaveChangesAsync())
+        {
+            return Ok();
+        }
+        else
+        {
+            return InternalServerError();
+        }
+    }
+    catch (Exception ex)
+    {
+        // TODO Add logging
+        return InternalServerError(ex);
+    }
+}
+```
+
+calling from postman
+```
+http://localhost:56556/api/camps/ATL2020
 ```
