@@ -25,7 +25,13 @@
         - [Step 14 - Adding Model validation](#step-14---adding-model-validation)
         - [Step 15 - Implementng PUT](#step-15---implementing-put)
         - [Step 16 - Implementng DELETE](#step-16---implementing-delete)
+    - [Functional API](#functional-api)
+        - [Step 17 - Creating functional api](#step-17---creating-functional-api)
+    - [API Versioning](#api-versioning)
     - [Association with API](#modifying-data)
+        - [Step 18 - Introducing versioning in Global](#step-18---introducing-versioning-in-global)
+        - [Step 19 - Versioning in Controller](#step-19---versioning-in-controller)
+        - [Step 20 - URL Versioning](#step-20---url-versioning)
 
 
 ## Sending Feedback
