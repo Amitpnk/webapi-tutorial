@@ -12,14 +12,14 @@ using System.Web.Http;
 
 namespace Customer.API.Controllers
 {
-    [ApiVersion("1.1")]
-    [RoutePrefix("api/camps")]
-    public class CampsController : ApiController
+    [ApiVersion("2.0")]
+    [RoutePrefix("api/v{version:apiVersion}/camps")]
+    public class Camps2Controller : ApiController
     {
         private readonly ICampRepository _repository;
         private readonly IMapper _mapper;
 
-        public CampsController(ICampRepository campRepository, IMapper mapper)
+        public Camps2Controller(ICampRepository campRepository, IMapper mapper)
         {
             _repository = campRepository;
             _mapper = mapper;
@@ -35,7 +35,7 @@ namespace Customer.API.Controllers
 
                 // Centralising configuration
                 var mappedResult = _mapper.Map<IEnumerable<CampModel>>(result);
-                return Ok(mappedResult);
+                return Ok(new { success = true, camp = mappedResult });
             }
             catch (Exception ex)
             {
@@ -45,7 +45,7 @@ namespace Customer.API.Controllers
 
         }
 
-        [Route("{moniker}", Name = "GetCamp")]
+        [Route("{moniker}", Name = "GetCamp20")]
         public async Task<IHttpActionResult> Get(string moniker, bool includeTalks = false)
         {
             try
@@ -112,7 +112,7 @@ namespace Customer.API.Controllers
                         var newModel = _mapper.Map<CampModel>(camp);
 
                         // Pass to Route with new value
-                        return CreatedAtRoute("GetCamp",
+                        return CreatedAtRoute("GetCamp20",
                             new { moniker = newModel.Moniker }, newModel);
                     }
                 }
@@ -154,7 +154,7 @@ namespace Customer.API.Controllers
                 // TODO Add logging
                 return InternalServerError(ex);
             }
-           
+
         }
 
         [Route("{moniker}")]

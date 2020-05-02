@@ -710,3 +710,142 @@ public class OpertaionsController : ApiController
 }
 ```
 
+## API Versioning
+
+Below are some examples we can implement API versioning
+
+
+* URI Path (recommended) <br/>
+https://foo.org/api/v2/customers
+
+* Query string <br/>
+https://foo.org/api/customers?v=2.0
+
+* Versioning with headers<br/>
+GET /api/camps <br/>
+HTTP/1.1 <br/>
+Host: localhost:4433 <br/>
+Content-type: application/json
+<b>x-version: 2.0</b>
+
+* Versioning with Accept header<br/>
+GET /api/camps <br/>
+HTTP/1.1 <br/>
+Host: localhost:4433 <br/>
+Content-type: application/json
+<b>Accept: application/json;version=2.
+0</b>
+
+* Versioning with Content type (recommended)<br/>
+GET /api/camps <br/>
+HTTP/1.1 <br/>
+Host: localhost:4433 <br/>
+<b>Content-type: application/vnd.yourapp.camp.v1+json</b>
+<b>Accept: application/vnd.yourapp.camp.v1+json</b>
+
+
+### Step 18 - Introducing versioning in Global 
+
+Add Microsoft.AspNet.WebApi.Versioning via nuget
+
+```c#
+public static void Register(HttpConfiguration config)
+{
+    // Web API configuration and services
+    AutofacConfig.Register();
+
+    config.AddApiVersioning(cfg =>
+    {
+        // Versioning 1.1
+        cfg.DefaultApiVersion = new Microsoft.Web.Http.ApiVersion(1, 1);
+        // No need to pass in query string
+        cfg.AssumeDefaultVersionWhenUnspecified = true;
+        // Version can be seen in headers
+        cfg.ReportApiVersions = true;
+    });
+
+    // ...
+}
+```
+
+### Step 19 - Versioning in Controller
+
+Removing versioning line for config file
+
+```c#
+public static void Register(HttpConfiguration config)
+{
+    // Web API configuration and services
+    AutofacConfig.Register();
+
+    config.AddApiVersioning(cfg =>
+    {
+        // Versioning 1.1
+        // cfg.DefaultApiVersion = new Microsoft.Web.Http.ApiVersion(1, 1);
+        // No need to pass in query string
+        cfg.AssumeDefaultVersionWhenUnspecified = true;
+        // Version can be seen in headers
+        cfg.ReportApiVersions = true;
+    });
+
+    // ...
+}
+```
+
+```c#
+[ApiVersion("1.1")]
+[RoutePrefix("api/camps")]
+public class CampsController : ApiController
+{
+    // ...
+}
+```
+
+### Step 20 - URL Versioning
+
+```c#
+public static void Register(HttpConfiguration config)
+{
+    // Web API configuration and services
+    AutofacConfig.Register();
+
+    config.AddApiVersioning(cfg =>
+    {
+        // No need to pass in query string
+        cfg.AssumeDefaultVersionWhenUnspecified = true;
+        // Version can be seen in headers 
+        cfg.ReportApiVersions = true;
+        // URL vesion 
+        cfg.ApiVersionReader = new UrlSegmentApiVersionReader();
+    });
+
+    // Change case of JSON
+    config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
+        new CamelCasePropertyNamesContractResolver();
+
+
+    var constraintResolver = new DefaultInlineConstraintResolver()
+    {
+        ConstraintMap =
+        {
+            ["apiVersion"] = typeof(ApiVersionRouteConstraint)
+        }
+    };
+
+    // Web API routes
+    config.MapHttpAttributeRoutes(constraintResolver);
+}
+```
+
+```c#
+[ApiVersion("2.0")]
+[RoutePrefix("api/v{version:apiVersion}/camps")]
+public class Camps2Controller : ApiController
+{
+    // ...
+}
+```
+
+```
+http://localhost:56556/api/v2/camps
+```
