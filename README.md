@@ -34,15 +34,9 @@ For feedback can drop mail to my email address amit.naik8103@gmail.com or you ca
 
 ## About Web API
 
-* Windows Communication Foundation 
-    * Basically it is platform for building distributed service-orieted application
-        * Defines services and host for those services
-        * Defines clients to connect to services
-* SOAP Messaging
-    * It is XML based protocol information at a wire-level
-    * WCF is messaging system 
+* ASP.NET Web API is a framework for building HTTP services that can be accessed from any client including browsers and mobile devices. It is an ideal platform for building RESTful applications on the .NET Framework
 
-
+## Creating Web API application and configuration
 
 ### Step 1 - Create Application and setting up with Entity framework
 
